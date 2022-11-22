@@ -1,40 +1,109 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+<title>reveal.js</title>
 
-		<link rel="stylesheet" href="dist/reset.css">
-		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css">
+<link rel="stylesheet" href="dist/reset.css">
+<link rel="stylesheet" href="dist/reveal.css">
+<link rel="stylesheet" href="dist/theme/white.css">
 
-		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/monokai.css">
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
-		</div>
 
-		<script src="dist/reveal.js"></script>
-		<script src="plugin/notes/notes.js"></script>
-		<script src="plugin/markdown/markdown.js"></script>
-		<script src="plugin/highlight/highlight.js"></script>
-		<script>
-			// More info about initialization & config:
-			// - https://revealjs.com/initialization/
-			// - https://revealjs.com/config/
-			Reveal.initialize({
-				hash: true,
+<!-- Theme used for syntax highlighted code -->
+<link rel="stylesheet" href="plugin/highlight/ascetic.css">
+<style>#main-title { margin-top:-20%; } /* Move main title down */ </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="main-title" data-background-position="center 100%" data-background-size="75%" data-background-image="assets/bunnyRendering.png" ><h2>Target-Driven Fluid Animation</h2></section>
 
-				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
-			});
-		</script>
-	</body>
+<section>
+<h3>Overview</h3>
+<ol>
+<li><a href="#/primer">Fluid Simulation Primer</a></li>
+<li><a href="#/algorithm">Algorithm</a></li>
+<li><a href="#/demos">Demos</a></li>
+<li><a href="#/references">References</a></li>
+</ol>
+</section>
+
+<section>
+<section><h3>Fluid Simulation Primer</h3></section>
+<section><h3>Navier-Stokes Equations</h3>
+\[\frac{\partial \textbf{u}}{\partial t} +(\textbf{u} \cdot \nabla)\textbf{u} - \nu \nabla^2 \textbf{u} = -\frac{1}{\rho} \nabla p + g\]
+<p>Relies on <strong>continuum hypothesis</strong></p>
+</section>
+<section data-menu-title="Eulerian"><h3>Discretisation</h3>
+<p><strong>Eulerian</strong> schemes use fixed frame (often grids)</p>
+<video muted autoplay loop><source src="assets/eulerian.webm"></source></video>
+</section>
+<section data-menu-title="Lagrangian"><h3>Discretisation</h3>
+<p><strong>Lagrangian</strong> schemes use moving frames (particles)</p>
+<video muted autoplay loop width="500px"><source src="assets/lagrangian.mp4"></source></video>
+</section>
+</section>
+
+<section id="algorithm">
+<section><h3>Algorithm</h3>
+<pre><code class="language-ada" data-trim data-noescape data-line-numbers>
+Required: Source Simulation Initial Conditions
+Required: Overall fluid simulation time duration
+Required: Number of coupling instances
+Run source simulation
+Store coupling instances' source particle position and velocity
+for number of coupling instances
+	<a href="#/shell-creation">Shell Creation From the Target Shape</a>
+	<a href="#/velocity-selection">Target particles Initial Velocity Selection & Assignment</a>
+	Run Forward Simulation
+	Run Backward Simulation
+	<a href="#/coupling">Coupling</a>
+end for
+Blending
+</code></pre>
+</section>
+<section id="shell-creation"><h3>Shell Creation</h3><img src="assets/hybridGeometryProcessing.png" /></section>
+<section id="velocity-selection"><h3>Initial Velocity Selection</h3><img src="assets/InitialvelocitySelectionPosition.png" /></section>
+<section id="coupling"><h3>Coupling</h3><img src="assets/threeCouplingInstances.png" /></section>
+</section>
+
+<section id="demos">
+<section><h3>Demos</h3></section>
+<section data-menu-title="Stars Demo" data-background-video="assets/stars.mp4" data-background-video-loop="loop"></section>
+<section data-menu-title="Bunny Demo" data-background-video="assets/bunny.mp4" data-background-video-loop="loop"></section>
+<section data-menu-title="Dragon Demo" data-background-video="assets/dragon.mp4" data-background-video-loop="loop"></section>
+<section data-menu-title="Horse Demo" data-background-video="assets/horse.mp4" data-background-video-loop="loop"></section>
+<section data-menu-title="Face Demo" data-background-video="assets/face.mp4" data-background-video-loop="loop"></section>
+</section>
+
+<section id="references">
+<section><h3>References</h3>
+<p>Sivakumaran, G 2022, 'Connecting Forward and Backward Simulations for Target-Driven Fluid Animation', Masters thesis, Carleton University, Ottawa.</p>
+<p>Pregent, A. (2022) <em>Smoothed-particle Hydrodynamics.</em> Available at: https://ajp.pages.dev/post/sph/ (Accessed: 22 Nov, 2022).</p>
+<p>Pregent, A. (2022) <em>Eulerian Fluid Dynamics.</em> Available at: https://ajp.pages.dev/post/grid/ (Accessed: 22 Nov, 2022).</p>
+</section>
+
+</div>
+</div>
+
+<script src="dist/reveal.js"></script>
+<script src="plugin/notes/notes.js"></script>
+<script src="plugin/markdown/markdown.js"></script>
+<script src="plugin/highlight/highlight.js"></script>
+<script src="plugin/math/math.js"></script>
+<script src="node_modules/reveal.js-menu/menu.js"></script>
+<script>
+// More info about initialization & config:
+// - https://revealjs.com/initialization/
+// - https://revealjs.com/config/
+Reveal.initialize({
+hash: true,
+
+// Learn about plugins: https://revealjs.com/plugins/
+plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMenu, RevealMath.KaTeX ]
+});
+</script>
+</body>
 </html>
